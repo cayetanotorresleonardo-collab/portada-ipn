@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Portada IPN - Optimizada</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  color: white;
+  overflow: hidden;
+  background: linear-gradient(135deg,#3a0015 0%,#6a0024 45%,#2b2b2b 100%);
+  position: relative;
+}
+
+/* ILUMINACION DIAGONAL */
+body::before {
+  content: "";
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.10), transparent 60%);
+  transform: rotate(-15deg);
+  z-index: 0;
+}
+
+/* CUADRICULA */
+.grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 70px 70px;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  z-index: 0;
+}
+
+/* CONTENEDOR */
+.container {
+  text-align: center;
+  z-index: 5;
+}
+
+/* LOGOS */
+.logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(40px) scale(.9);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.logo {
+  width: 240px;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.6));
+}
+
+/* TITULO IPN */
+.ipn {
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  text-shadow: 0 2px 6px rgba(0,0,0,.3);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+/* TITULO CECYT */
+.cecyt {
+  font-size: 23px;
+  font-weight: 300;
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateY(20px);
+  text-shadow: 0 2px 6px rgba(0,0,0,.3);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+/* LINEA */
+.line {
+  width: 420px;
+  height: 2px;
+  margin: 18px auto;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);
+  opacity: 0;
+  width: 0;
+  transition: opacity 1.5s ease, width 2.5s ease;
+}
+
+/* PARTICULAS */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: float linear infinite;
+}
+
+/* CUADROS */
+.square {
+  position: absolute;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.25);
+  opacity: 0.4;
+  animation: move linear infinite;
+}
+
+/* ANIMACIONES */
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  10% { opacity: 0.6; }
+  100% { transform: translateY(-10vh); opacity: 0.6; }
+}
+
+@keyframes move {
+  0% { transform: translateY(100vh) rotate(0); opacity: 0.2; }
+  20% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0.2; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="container">
+  <div class="logos">
+    <img src="logo_ipn.png" class="logo">
+    <img src="logo_cecyt16.png" class="logo">
+  </div>
+
+  <div class="ipn">INSTITUTO POLITÉCNICO NACIONAL</div>
+  <div class="line"></div>
+  <div class="cecyt">Centro de Estudios Científicos y Tecnológicos No. 16 "Hidalgo"</div>
+  <div class="line"></div>
+</div>
+
+<script>
+// PARTICULAS
+for (let i = 0; i < 90; i++) {
+  let p = document.createElement("div");
+  p.classList.add("particle");
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = (6 + Math.random() * 8) + "s";
+  document.body.appendChild(p);
+}
+
+// CUADROS
+for (let i = 0; i < 28; i++) {
+  let s = document.createElement("div");
+  s.classList.add("square");
+  let size = 15 + Math.random() * 35;
+  s.style.width = size + "px";
+  s.style.height = size + "px";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.animationDuration = (8 + Math.random() * 12) + "s";
+  document.body.appendChild(s);
+}
+
+// FUNCION PARA INICIAR TODAS LAS ANIMACIONES VISIBLES
+function startAnimations(){
+  const logos = document.querySelector('.logos');
+  const ipn = document.querySelector('.ipn');
+  const cecyt = document.querySelector('.cecyt');
+  const lines = document.querySelectorAll('.line');
+  const grid = document.querySelector('.grid');
+
+  // Animaciones escalonadas para evitar pico de CPU
+  setTimeout(()=>{ logos.style.opacity="1"; logos.style.transform="translateY(0) scale(1)"; }, 0);
+  setTimeout(()=>{ ipn.style.opacity="1"; ipn.style.transform="translateY(0)"; }, 200);
+  setTimeout(()=>{ cecyt.style.opacity="1"; cecyt.style.transform="translateY(0)"; }, 400);
+  lines.forEach((l,i)=>{ setTimeout(()=>{ l.style.opacity="1"; l.style.width="420px"; }, 600 + i*150); });
+  setTimeout(()=>{ grid.style.opacity=".55"; }, 1000);
+}
+
+// EJECUTAR TODAS DESPUÉS DE 7 SEGUNDOS
+window.addEventListener("load", ()=>{
+  setTimeout(startAnimations, 7000);
+});
+</script>
+
+</body>
+</html>
